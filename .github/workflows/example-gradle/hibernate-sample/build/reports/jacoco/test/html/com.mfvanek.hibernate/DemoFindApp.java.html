@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DemoFindApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hibernate-sample</a> &gt; <a href="index.source.html" class="el_package">com.mfvanek.hibernate</a> &gt; <span class="el_source">DemoFindApp.java</span></div><h1>DemoFindApp.java</h1><pre class="source lang-java linenums">package com.mfvanek.hibernate;
+
+import com.mfvanek.hibernate.entities.TestEvent;
+import com.mfvanek.hibernate.utils.SessionFactoryUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+<span class="nc" id="L11">@Slf4j</span>
+<span class="nc" id="L12">public class DemoFindApp {</span>
+
+    public static void main(final String[] args) {
+<span class="nc" id="L15">        try (SessionFactory sessionFactory = SessionFactoryUtil.build()) {</span>
+<span class="nc" id="L16">            final TestEvent first = findById(sessionFactory, 11L);</span>
+<span class="nc" id="L17">            log.info(&quot;Inside main: {}&quot;, first);</span>
+<span class="nc" id="L18">            SessionFactoryUtil.validateQueriesCount(1);</span>
+        }
+<span class="nc" id="L20">    }</span>
+
+    private static TestEvent findById(final SessionFactory sessionFactory, final long id) {
+<span class="nc" id="L23">        TestEvent result = new TestEvent();</span>
+<span class="nc" id="L24">        try (Session session = sessionFactory.openSession()) {</span>
+<span class="nc" id="L25">            final Transaction trn = session.beginTransaction();</span>
+            try {
+<span class="nc" id="L27">                result = session.get(TestEvent.class, id);</span>
+<span class="nc" id="L28">                log.trace(&quot;Inside Session: {}&quot;, result);</span>
+                // In order to avoid LazyInitializationException
+<span class="nc" id="L30">                Hibernate.initialize(result);</span>
+<span class="nc" id="L31">                trn.commit();</span>
+<span class="nc" id="L32">            } catch (Throwable e) {</span>
+<span class="nc" id="L33">                log.error(&quot;Error occurred&quot;, e);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">                if (trn.isActive()) {</span>
+<span class="nc" id="L35">                    trn.markRollbackOnly();</span>
+                }
+<span class="nc" id="L37">            }</span>
+        }
+<span class="nc" id="L39">        log.info(&quot;Inside findById: {}&quot;, result);</span>
+<span class="nc" id="L40">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

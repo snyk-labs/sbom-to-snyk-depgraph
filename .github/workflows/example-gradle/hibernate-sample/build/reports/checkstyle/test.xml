@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.0">
+<file name="/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/src/test/java/com/mfvanek/hibernate/utils/PropertiesUtilTest.java">
+</file>
+</checkstyle>

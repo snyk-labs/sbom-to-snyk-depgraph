@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!-- Very dangerous! -->
+    <changeSet id="1.0.0-2-clear-table-event_info-20181210" author="ivan.vakhrushev">
+        <preConditions onFail="WARN">
+            <tableExists tableName="event_info" />
+        </preConditions>
+        <delete tableName="event_info" />
+    </changeSet>
+
+    <changeSet id="1.0.0-2-modify-enum-type-event_info-20190104" author="ivan.vakhrushev">
+        <preConditions onFail="WARN">
+            <tableExists tableName="event_info" />
+            <columnExists tableName="event_info" columnName="info_type"/>
+        </preConditions>
+        <modifyDataType columnName="info_type"
+                        newDataType="varchar(50)"
+                        tableName="event_info"/>
+    </changeSet>
+
+</databaseChangeLog>

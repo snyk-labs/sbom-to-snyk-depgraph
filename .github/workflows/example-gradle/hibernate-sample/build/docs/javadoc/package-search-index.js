@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.mfvanek.hibernate"},{"l":"com.mfvanek.hibernate.consts"},{"l":"com.mfvanek.hibernate.entities"},{"l":"com.mfvanek.hibernate.enums"},{"l":"com.mfvanek.hibernate.utils"}];updateSearchResults();

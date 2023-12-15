@@ -1,0 +1,23 @@
+n17:41:30,014 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.4.14
+‡17:41:30,015 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - No custom configurators were discovered as a service.
+£17:41:30,015 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+±17:41:30,016 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+s17:41:30,018 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+n17:41:30,018 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+Õ17:41:30,021 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 2 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+Ÿ17:41:30,021 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+­17:41:30,021 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+r17:41:30,021 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+õ17:41:30,023 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/resources/main/logback.xml]
+€17:41:30,056 |-WARN in ch.qos.logback.classic.joran.action.LevelAction - <level> element is deprecated. Near [level] on line 14
+’17:41:30,056 |-WARN in ch.qos.logback.classic.joran.action.LevelAction - Please use "level" attribute within <logger> or <root> elements instead.
+v17:41:30,083 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+ž17:41:30,083 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+µ17:41:30,089 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+}17:41:30,126 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to ERROR
+ˆ17:41:30,126 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+x17:41:30,127 |-INFO in ch.qos.logback.classic.model.processor.LevelModelHandler - org.hibernate.stat level set to DEBUG
+m17:41:30,127 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@5bcb04cb - End of configuration.
+Š17:41:30,128 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@385e36d4 - Registering current configuration as safe fallback point
+Ú17:41:30,128 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 107 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+

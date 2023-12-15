@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DemoInsertApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hibernate-sample</a> &gt; <a href="index.source.html" class="el_package">com.mfvanek.hibernate</a> &gt; <span class="el_source">DemoInsertApp.java</span></div><h1>DemoInsertApp.java</h1><pre class="source lang-java linenums">package com.mfvanek.hibernate;
+
+import com.mfvanek.hibernate.entities.TestEvent;
+import com.mfvanek.hibernate.entities.TestEventInfo;
+import com.mfvanek.hibernate.enums.TestEventType;
+import com.mfvanek.hibernate.utils.RowsCountValidator;
+import com.mfvanek.hibernate.utils.SessionFactoryUtil;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import java.time.Duration;
+import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+<span class="nc" id="L21">@Slf4j</span>
+<span class="nc" id="L22">public class DemoInsertApp {</span>
+
+    private static final int LOOP_COUNT = 1_000;
+
+    public static void main(final String[] args) {
+<span class="nc" id="L27">        try (SessionFactory sessionFactory = SessionFactoryUtil.build()) {</span>
+<span class="nc" id="L28">            final RowsCountValidator validator = new RowsCountValidator(sessionFactory);</span>
+
+<span class="nc" id="L30">            saveFromCurrentThread(sessionFactory);</span>
+<span class="nc" id="L31">            saveFromNewSingleThread(sessionFactory);</span>
+<span class="nc" id="L32">            saveUsingThreadPool(sessionFactory);</span>
+
+<span class="nc" id="L34">            final long expectedEventsCount = 3 * 2 * LOOP_COUNT;</span>
+<span class="nc" id="L35">            validator.validate(expectedEventsCount, TestEvent.class);</span>
+<span class="nc" id="L36">            validator.validate(3 * expectedEventsCount, TestEventInfo.class);</span>
+<span class="nc" id="L37">            SessionFactoryUtil.validateQueriesCount(12 * LOOP_COUNT + 4);</span>
+        }
+<span class="nc" id="L39">    }</span>
+
+    private static void saveItem(final SessionFactory sessionFactory) {
+<span class="nc" id="L42">        try (Session session = sessionFactory.openSession()) {</span>
+<span class="nc" id="L43">            final Transaction trn = session.beginTransaction();</span>
+            try {
+<span class="nc" id="L45">                final TestEvent firstEvent = new TestEvent(&quot;Our very first event!&quot;, new Date());</span>
+<span class="nc" id="L46">                addTestEventInfo(firstEvent, 11);</span>
+<span class="nc" id="L47">                session.persist(firstEvent);</span>
+
+<span class="nc" id="L49">                final TestEvent secondEvent = new TestEvent(&quot;A follow up event&quot;, new Date());</span>
+<span class="nc" id="L50">                addTestEventInfo(secondEvent, 22);</span>
+<span class="nc" id="L51">                session.persist(secondEvent);</span>
+<span class="nc" id="L52">                trn.commit();</span>
+<span class="nc" id="L53">            } catch (Throwable e) {</span>
+<span class="nc" id="L54">                log.error(&quot;Error occurred&quot;, e);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (trn.isActive()) {</span>
+<span class="nc" id="L56">                    trn.markRollbackOnly();</span>
+                }
+<span class="nc" id="L58">            }</span>
+        }
+<span class="nc" id="L60">    }</span>
+
+    private static void addTestEventInfo(final TestEvent event, final int number) {
+<span class="nc" id="L63">        final Set&lt;TestEventInfo&gt; info = Set.of(</span>
+<span class="nc" id="L64">                new TestEventInfo(TestEventType.MAIN, String.format(&quot;%d, first, main&quot;, number)),</span>
+<span class="nc" id="L65">                new TestEventInfo(TestEventType.ADDITIONAL, String.format(&quot;%d, second, additional&quot;, number)),</span>
+<span class="nc" id="L66">                new TestEventInfo(TestEventType.EXTENDED, String.format(&quot;%d, third, ext&quot;, number)));</span>
+<span class="nc" id="L67">        event.addEventInfo(info);</span>
+<span class="nc" id="L68">    }</span>
+
+    private static void saveFromCurrentThread(final SessionFactory sessionFactory) {
+<span class="nc" id="L71">        new DataSaver(&quot;current thread&quot;, sessionFactory).run();</span>
+<span class="nc" id="L72">    }</span>
+
+<span class="nc" id="L74">    @SneakyThrows</span>
+    private static void saveFromNewSingleThread(final SessionFactory sessionFactory) {
+<span class="nc" id="L76">        final Thread thread = new Thread(new DataSaver(&quot;new single thread&quot;, sessionFactory), &quot;pg_single&quot;);</span>
+<span class="nc" id="L77">        thread.start();</span>
+<span class="nc" id="L78">        thread.join(Duration.ofSeconds(100L));</span>
+<span class="nc" id="L79">    }</span>
+
+<span class="nc" id="L81">    @SneakyThrows</span>
+    private static void saveUsingThreadPool(final SessionFactory sessionFactory) {
+<span class="nc" id="L83">        final String message = &quot;Saving items using thread pool&quot;;</span>
+<span class="nc" id="L84">        log.trace(message);</span>
+<span class="nc" id="L85">        final long timeStart = System.currentTimeMillis();</span>
+<span class="nc" id="L86">        final int threadsCount = Runtime.getRuntime().availableProcessors() + 1;</span>
+<span class="nc" id="L87">        try (ExecutorService threadPool = Executors.newFixedThreadPool(threadsCount)) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            for (int i = 0; i &lt; LOOP_COUNT; ++i) {</span>
+<span class="nc" id="L89">                threadPool.submit(() -&gt; DemoInsertApp.saveItem(sessionFactory));</span>
+            }
+<span class="nc" id="L91">            threadPool.shutdown();</span>
+<span class="nc" id="L92">            threadPool.awaitTermination(10L, TimeUnit.SECONDS);</span>
+        }
+<span class="nc" id="L94">        log.trace(&quot;{}. Completed. Time elapsed = {} (ms)&quot;, message, System.currentTimeMillis() - timeStart);</span>
+<span class="nc" id="L95">    }</span>
+
+    private static class DataSaver implements Runnable {
+
+        private final String message;
+        private final SessionFactory sessionFactory;
+
+<span class="nc" id="L102">        DataSaver(final String message, final SessionFactory sessionFactory) {</span>
+<span class="nc" id="L103">            this.message = message;</span>
+<span class="nc" id="L104">            this.sessionFactory = sessionFactory;</span>
+<span class="nc" id="L105">        }</span>
+
+        @Override
+        public void run() {
+<span class="nc" id="L109">            log.trace(&quot;Saving items from {}&quot;, this.message);</span>
+<span class="nc" id="L110">            final long timeStart = System.currentTimeMillis();</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (int i = 0; i &lt; LOOP_COUNT; ++i) {</span>
+<span class="nc" id="L112">                saveItem(sessionFactory);</span>
+            }
+<span class="nc" id="L114">            log.trace(&quot;{}. Completed. Time elapsed = {} (ms)&quot;, this.message, System.currentTimeMillis() - timeStart);</span>
+<span class="nc" id="L115">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

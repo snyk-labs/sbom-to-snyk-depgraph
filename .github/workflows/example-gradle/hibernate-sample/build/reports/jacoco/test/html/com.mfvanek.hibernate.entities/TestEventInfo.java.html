@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestEventInfo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hibernate-sample</a> &gt; <a href="index.source.html" class="el_package">com.mfvanek.hibernate.entities</a> &gt; <span class="el_source">TestEventInfo.java</span></div><h1>TestEventInfo.java</h1><pre class="source lang-java linenums">package com.mfvanek.hibernate.entities;
+
+import com.mfvanek.hibernate.consts.Const;
+import com.mfvanek.hibernate.enums.TestEventType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.bson.types.ObjectId;
+
+import java.util.Objects;
+
+@Getter
+//@Setter NO SETTER HERE!
+@NoArgsConstructor
+@ToString
+@Entity
+@Table(name = &quot;event_info&quot;, schema = Const.SCHEMA_NAME)
+public class TestEventInfo {
+
+    @Id
+    @NotNull
+    @Size(min = 24, max = 24)
+    @Column(name = &quot;id&quot;, columnDefinition = &quot;varchar&quot;, length = 24)
+    private String id;
+
+    @Setter
+    @NotNull
+    @Column(name = &quot;info_body&quot;, nullable = false)
+    private String info;
+
+    @Setter
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = &quot;info_type&quot;, columnDefinition = &quot;varchar&quot;, length = 50, nullable = false)
+    private TestEventType infoType;
+
+    @ToString.Exclude
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = &quot;event_id&quot;, nullable = false)
+    private TestEvent eventId;
+
+    public TestEventInfo(final TestEventType infoType, final String info) {
+<span class="nc" id="L57">        this(ObjectId.get(), infoType, info);</span>
+<span class="nc" id="L58">    }</span>
+
+<span class="nc" id="L60">    private TestEventInfo(final ObjectId id, final TestEventType infoType, final String info) {</span>
+<span class="nc" id="L61">        this.id = id.toHexString();</span>
+<span class="nc" id="L62">        this.infoType = infoType;</span>
+<span class="nc" id="L63">        this.info = info;</span>
+<span class="nc" id="L64">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L68">        return new HashCodeBuilder(19, 41)</span>
+<span class="nc" id="L69">                .append(id)</span>
+<span class="nc" id="L70">                .append(info)</span>
+<span class="nc" id="L71">                .append(infoType)</span>
+<span class="nc" id="L72">                .toHashCode();</span>
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (o == null) {</span>
+<span class="nc" id="L78">            return false;</span>
+        }
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (o == this) {</span>
+<span class="nc" id="L82">            return true;</span>
+        }
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (!(o instanceof TestEventInfo other)) {</span>
+<span class="nc" id="L86">            return false;</span>
+        }
+
+<span class="nc" id="L89">        return new EqualsBuilder()</span>
+<span class="nc" id="L90">                .append(this.id, other.id)</span>
+<span class="nc" id="L91">                .append(this.info, other.info)</span>
+<span class="nc" id="L92">                .append(this.infoType, other.infoType)</span>
+<span class="nc" id="L93">                .append(this.eventId, other.eventId)</span>
+<span class="nc" id="L94">                .isEquals();</span>
+    }
+
+    @SuppressWarnings(&quot;PMD.CompareObjectsWithEquals&quot;)
+    public void setEventId(final TestEvent event) {
+<span class="nc" id="L99">        Objects.requireNonNull(event, &quot;event can't be null&quot;);</span>
+
+<span class="nc bnc" id="L101" title="All 4 branches missed.">        if (this.eventId != null &amp;&amp; this.eventId != event) {</span>
+<span class="nc" id="L102">            throw new IllegalStateException(&quot;eventId is already set&quot;);</span>
+        }
+
+<span class="nc" id="L105">        this.eventId = event;</span>
+<span class="nc" id="L106">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

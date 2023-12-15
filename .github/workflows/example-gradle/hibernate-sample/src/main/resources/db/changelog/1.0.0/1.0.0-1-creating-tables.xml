@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1.0.0-1-creating-table-event-20181205" author="ivan.vakhrushev">
+        <preConditions onFail="WARN">
+            <not><tableExists tableName="event"/></not>
+        </preConditions>
+        <createTable tableName="event">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="mess_body" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_mark" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.0-1-creating-table-event_info-20181205" author="ivan.vakhrushev">
+        <preConditions onFail="WARN">
+            <not><tableExists tableName="event_info"/></not>
+        </preConditions>
+        <createTable tableName="event_info">
+            <column name="id" type="varchar(24)" autoIncrement="false">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="info_body" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="info_type" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.0-1-add-foreing-key-to-event_info-20181205" author="ivan.vakhrushev">
+        <preConditions onFail="WARN">
+            <columnExists tableName="event_info" columnName="event_id"/>
+            <columnExists tableName="event" columnName="id"/>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="event_id"
+                                 baseTableName="event_info"
+                                 constraintName="fk_event_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="event"/>
+    </changeSet>
+
+    <changeSet id="1.0.0-1-create-index-on-event_id-event_info-20181205" author="ivan.vakhrushev">
+        <preConditions onFail="WARN">
+            <columnExists tableName="event_info" columnName="event_id"/>
+            <not>
+                <indexExists tableName="event_info" indexName="idx_event_id"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="event_info" indexName="idx_event_id">
+            <column name="event_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

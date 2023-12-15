@@ -1,0 +1,13 @@
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/DemoFindApp.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/DemoLiquibaseRunnerApp.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/enums/TestEventType.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/DemoInsertApp$DataSaver.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/utils/RowsCountValidator.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/utils/RowsCountValidator$RowsCount.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/utils/PropertiesUtil.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/utils/SessionFactoryUtil.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/utils/ServiceRegistryUtil.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/DemoInsertApp.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/consts/Const.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/entities/TestEvent.class
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/main/com/mfvanek/hibernate/entities/TestEventInfo.class

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2,SLF4J_LOGGER_SHOULD_BE_NON_STATIC"/>
+    </Match>
+    <Match>
+        <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"/>
+        <Class name="com.mfvanek.hibernate.DemoInsertApp"/>
+    </Match>
+    <Match>
+        <Bug pattern="SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE"/>
+        <Class name="com.mfvanek.hibernate.DemoLiquibaseRunnerApp"/>
+    </Match>
+    <Match>
+        <Bug pattern="HES_LOCAL_EXECUTOR_SERVICE"/>
+        <Class name="com.mfvanek.hibernate.DemoInsertApp"/>
+    </Match>
+    <Match>
+        <Bug pattern="CRLF_INJECTION_LOGS,WEM_WEAK_EXCEPTION_MESSAGING"/>
+    </Match>
+    <Match>
+        <Bug pattern="IMC_IMMATURE_CLASS_NO_TOSTRING"/>
+        <Class name="com.mfvanek.hibernate.utils.RowsCountValidator"/>
+    </Match>
+</FindBugsFilter>

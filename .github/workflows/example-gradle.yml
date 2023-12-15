@@ -1,0 +1,70 @@
+name: Snyk Monitor SBOM Example Worklfow
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: .github/workflows/example-gradle/hibernate-sample
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   name: Set up JDK 21
+                uses: actions/setup-java@v4
+                with:
+                    distribution: 'temurin'
+                    java-version: '21'
+            -   name: Setup Gradle
+                uses: gradle/gradle-build-action@v2
+                with:
+                    gradle-version: wrapper
+            -   name: Build with Gradle
+                run: ./gradlew build 2>/dev/null
+            -   name: Generate SBOM
+                run: ./gradlew cyclonedxBom
+            -   name: Upload CDX SBOM
+                uses: actions/upload-artifact@v3
+                with:
+                    name: bom
+                    path: .github/workflows/example-gradle/hibernate-sample/build/reports/bom.json
+    snyk-monitor:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Set up Python 3.9
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.9
+  
+            - name: Install Poetry
+              run: curl -sSL https://install.python-poetry.org | python3 -
+  
+            - name: Install dependencies
+              run: |
+                  pwd
+                  ls -lrt
+                  $HOME/.local/bin/poetry install -v
+              env:
+                  POETRY_VIRTUALENVS_IN_PROJECT: true
+            
+            - name: Download SBOM from build step
+              uses: actions/download-artifact@v3
+              with:
+                  name: bom
+
+            - name: Monitor SBOM with Snyk
+              run: |
+                  source .venv/bin/activate
+                  $HOME/.local/bin/poetry run python3 sbom_to_snyk_depgraph/main.py --sbom-file=".github/workflows/example-gradle/hibernate-sample/build/reports/bom.json" monitor --snyk-org-id=fa37c43d-b33f-489a-8708-9b84b6e6211b
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+                

@@ -1,0 +1,5 @@
+com.mfvanek.hibernate
+com.mfvanek.hibernate.consts
+com.mfvanek.hibernate.entities
+com.mfvanek.hibernate.enums
+com.mfvanek.hibernate.utils

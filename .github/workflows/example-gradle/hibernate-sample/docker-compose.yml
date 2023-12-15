@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:14.8-alpine3.18
+    environment:
+      POSTGRES_DB: "hibernate_test"
+      POSTGRES_USER: "hibernate_user"
+      POSTGRES_PASSWORD: "hibernate@pwd"
+      POSTGRES_SCHEMA: "alien"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - hibernatedb-data:/var/lib/postgresql/data
+    ports:
+      - "6432:5432"
+
+volumes:
+  hibernatedb-data:

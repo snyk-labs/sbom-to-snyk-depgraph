@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RowsCountValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hibernate-sample</a> &gt; <a href="index.source.html" class="el_package">com.mfvanek.hibernate.utils</a> &gt; <span class="el_source">RowsCountValidator.java</span></div><h1>RowsCountValidator.java</h1><pre class="source lang-java linenums">package com.mfvanek.hibernate.utils;
+
+import com.mfvanek.hibernate.entities.TestEvent;
+import com.mfvanek.hibernate.entities.TestEventInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+
+<span class="nc" id="L13">@Slf4j</span>
+public class RowsCountValidator {
+
+    private final SessionFactory sessionFactory;
+    private final Map&lt;Class&lt;?&gt;, RowsCount&lt;?&gt;&gt; counters;
+
+<span class="nc" id="L19">    public RowsCountValidator(final SessionFactory sessionFactory) {</span>
+<span class="nc" id="L20">        this.sessionFactory = sessionFactory;</span>
+<span class="nc" id="L21">        this.counters = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L22">        add(TestEvent.class);</span>
+<span class="nc" id="L23">        add(TestEventInfo.class);</span>
+<span class="nc" id="L24">    }</span>
+
+    private &lt;T&gt; void add(final Class&lt;T&gt; clazz) {
+<span class="nc" id="L27">        this.counters.put(clazz, new RowsCount&lt;&gt;(sessionFactory, clazz));</span>
+<span class="nc" id="L28">    }</span>
+
+    public &lt;T&gt; void validate(final long expected, final Class&lt;T&gt; clazz) {
+<span class="nc" id="L31">        final RowsCount&lt;?&gt; counter = this.counters.get(clazz);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (counter != null) {</span>
+<span class="nc" id="L33">            counter.validate(expected);</span>
+        } else {
+<span class="nc" id="L35">            throw new NoSuchElementException(&quot;Not found &quot; + clazz.getName());</span>
+        }
+<span class="nc" id="L37">    }</span>
+
+    private static class RowsCount&lt;T&gt; {
+
+        private final SessionFactory sessionFactory;
+        private final Class&lt;T&gt; clazz;
+        private final long rowsBefore;
+        private long rowsAfter;
+
+<span class="nc" id="L46">        RowsCount(final SessionFactory sessionFactory, final Class&lt;T&gt; clazz) {</span>
+<span class="nc" id="L47">            this.sessionFactory = sessionFactory;</span>
+<span class="nc" id="L48">            this.clazz = clazz;</span>
+<span class="nc" id="L49">            this.rowsBefore = countTotal();</span>
+<span class="nc" id="L50">        }</span>
+
+        private void calcAfter() {
+<span class="nc" id="L53">            this.rowsAfter = countTotal();</span>
+<span class="nc" id="L54">            this.printCount(this.rowsAfter, false);</span>
+<span class="nc" id="L55">        }</span>
+
+        @SuppressWarnings(&quot;PMD.AvoidThrowingRawExceptionTypes&quot;)
+        void validate(final long expected) {
+<span class="nc" id="L59">            printCount(this.rowsBefore, true);</span>
+<span class="nc" id="L60">            calcAfter();</span>
+<span class="nc" id="L61">            final long actual = rowsAfter - rowsBefore;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (expected != actual) {</span>
+<span class="nc" id="L63">                throw new RuntimeException(String.format(&quot;Invalid inserted rows count: expected = %d, but was = %d&quot;, expected, actual));</span>
+            }
+<span class="nc" id="L65">        }</span>
+
+        private long countTotal() {
+            final long rowsCount;
+<span class="nc" id="L69">            try (Session session = sessionFactory.openSession()) {</span>
+<span class="nc" id="L70">                final Long result = session.createQuery(String.format(&quot;select count(*) from %s&quot;, this.clazz.getName()), Long.class).getSingleResult();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                rowsCount = result != null ? result : 0;</span>
+            }
+<span class="nc" id="L73">            return rowsCount;</span>
+        }
+
+        private void printCount(final long rowsCount, final boolean isBefore) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            log.info(&quot;{}: rows count {} = {}&quot;, this.clazz.getName(), isBefore ? &quot;before&quot; : &quot;after&quot;, rowsCount);</span>
+<span class="nc" id="L78">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

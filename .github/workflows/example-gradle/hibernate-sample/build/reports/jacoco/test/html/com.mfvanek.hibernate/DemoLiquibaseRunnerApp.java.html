@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DemoLiquibaseRunnerApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hibernate-sample</a> &gt; <a href="index.source.html" class="el_package">com.mfvanek.hibernate</a> &gt; <span class="el_source">DemoLiquibaseRunnerApp.java</span></div><h1>DemoLiquibaseRunnerApp.java</h1><pre class="source lang-java linenums">package com.mfvanek.hibernate;
+
+import com.mfvanek.hibernate.consts.Const;
+import com.mfvanek.hibernate.utils.PropertiesUtil;
+import liquibase.Contexts;
+import liquibase.LabelExpression;
+import liquibase.Liquibase;
+import liquibase.Scope;
+import liquibase.database.Database;
+import liquibase.database.DatabaseConnection;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+<span class="nc" id="L23">@Slf4j</span>
+<span class="nc" id="L24">public class DemoLiquibaseRunnerApp {</span>
+
+    // We can't automatically create a database from Java code
+<span class="nc" id="L27">    @SneakyThrows</span>
+    public static void main(final String[] args) {
+<span class="nc" id="L29">        try (Connection connection = getConnection()) {</span>
+<span class="nc" id="L30">            updateDatabaseStructure(connection);</span>
+        }
+<span class="nc" id="L32">    }</span>
+
+<span class="nc" id="L34">    @SneakyThrows</span>
+    private static Connection getConnection() {
+<span class="nc" id="L36">        final Properties properties = PropertiesUtil.load();</span>
+<span class="nc" id="L37">        final String url = properties.getProperty(Const.URL_PROPERTY_NAME);</span>
+<span class="nc" id="L38">        final String username = properties.getProperty(Const.USERNAME_PROPERTY_NAME);</span>
+<span class="nc" id="L39">        final String password = properties.getProperty(Const.PASSWORD_PROPERTY_NAME);</span>
+<span class="nc" id="L40">        Class.forName(properties.getProperty(Const.DRIVER_PROPERTY_NAME));</span>
+<span class="nc" id="L41">        return DriverManager.getConnection(url, username, password);</span>
+    }
+
+    @SuppressWarnings(&quot;deprecation&quot;)
+<span class="nc" id="L45">    @SneakyThrows</span>
+    private static void updateDatabaseStructure(final Connection connection) {
+<span class="nc" id="L47">        final Map&lt;String, Object&gt; config = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L48">        Scope.child(config, () -&gt; {</span>
+<span class="nc" id="L49">            final DatabaseConnection dbConnection = new JdbcConnection(connection);</span>
+<span class="nc" id="L50">            final Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(dbConnection);</span>
+<span class="nc" id="L51">            database.setDefaultSchemaName(Const.SCHEMA_NAME);</span>
+<span class="nc" id="L52">            database.setLiquibaseSchemaName(Const.SCHEMA_NAME);</span>
+<span class="nc" id="L53">            final Liquibase liquibase = new Liquibase(Const.LIQUIBASE_CHANGELOG_FILE, new ClassLoaderResourceAccessor(), database);</span>
+<span class="nc" id="L54">            liquibase.update(new Contexts(), new LabelExpression());</span>
+<span class="nc" id="L55">        });</span>
+<span class="nc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

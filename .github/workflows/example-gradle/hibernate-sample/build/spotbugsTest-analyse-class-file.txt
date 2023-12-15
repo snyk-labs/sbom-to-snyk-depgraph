@@ -1,0 +1,1 @@
+/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/classes/java/test/com/mfvanek/hibernate/utils/PropertiesUtilTest.class

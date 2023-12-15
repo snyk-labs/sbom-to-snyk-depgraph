@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - PropertiesUtilTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>PropertiesUtilTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.mfvanek.hibernate.utils.html">com.mfvanek.hibernate.utils</a> &gt; PropertiesUtilTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.209s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">loadShouldWork()</td>
+<td class="success">0.209s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>17:41:30,014 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.4.14
+17:41:30,015 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - No custom configurators were discovered as a service.
+17:41:30,015 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+17:41:30,016 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+17:41:30,018 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+17:41:30,018 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+17:41:30,021 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 2 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+17:41:30,021 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+17:41:30,021 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+17:41:30,021 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+17:41:30,023 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/Users/scott/repos.d/scott-es/sbom-to-snyk-depgraph/.github/workflows/example-gradle/hibernate-sample/build/resources/main/logback.xml]
+17:41:30,056 |-WARN in ch.qos.logback.classic.joran.action.LevelAction - &lt;level&gt; element is deprecated. Near [level] on line 14
+17:41:30,056 |-WARN in ch.qos.logback.classic.joran.action.LevelAction - Please use &quot;level&quot; attribute within &lt;logger&gt; or &lt;root&gt; elements instead.
+17:41:30,083 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+17:41:30,083 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+17:41:30,089 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+17:41:30,126 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to ERROR
+17:41:30,126 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+17:41:30,127 |-INFO in ch.qos.logback.classic.model.processor.LevelModelHandler - org.hibernate.stat level set to DEBUG
+17:41:30,127 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@5bcb04cb - End of configuration.
+17:41:30,128 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@385e36d4 - Registering current configuration as safe fallback point
+17:41:30,128 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1cb37ee4 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 107 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at Dec 17, 2023, 5:41:30 PM</p>
+</div>
+</div>
+</body>
+</html>
