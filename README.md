@@ -1,3 +1,5 @@
+![snyk-oss-category](https://github.com/snyk-labs/oss-images/blob/main/oss-example.jpg)
+
 # sbom-to-snyk-depgraph
 convert cyclone dx sbom to snyk depgraph and monitor/test/print
 
