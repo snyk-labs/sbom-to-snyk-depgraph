@@ -23,11 +23,6 @@ app = typer.Typer(add_completion=False)
 
 # globals
 g={}
-# g['DEPGRAPH_BASE_TEST_URL'] = "/test/dep-graph?org="
-# g['DEPGRAPH_BASE_MONITOR_URL'] = "/monitor/dep-graph?org="
-# g['package_source'] = "maven"
-# g['dep_graph'] = DepGraph(g['package_source'], False)
-
 DEPGRAPH_BASE_TEST_URL = "/test/dep-graph?org="
 DEPGRAPH_BASE_MONITOR_URL = "/monitor/dep-graph?org="
 
