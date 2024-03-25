@@ -54,9 +54,6 @@ Options:
                             SNYK_TOKEN]
   --snyk-org-id TEXT        Please specify the Snyk ORG ID to run commands
                             against  [env var: SNYK_ORG_ID]
-  --snyk-project-name TEXT  Specify a custom Snyk project name. By default
-                            Snyk will use the name of the root node.  [env
-                            var: SNYK_PROJECT_NAME]
   --help                    Show this message and exit.
   ```
 
